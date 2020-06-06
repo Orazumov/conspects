@@ -1,0 +1,1513 @@
+ДЗ Код в текстовом файле с расширением .sql
+ДЗ сдается ссылкой на git репозиторий.
+
+Установка рабочего окружения.
+
+Рекомендован: установка mySQL 8 (там есть оконные функции) на виртуальную машину с Ubuntu 18.04 LTS.
+
+Установка:
+
+1. Откорываем десктоп, создаем виртуальную машину.
+
+Создаем машину:
+
+название: Ubuntu DB
+Linux
+Ubuntu(64 bit)
+--
+Память 2Гб.
+--
+Создать вирт. машину и новый жесткий диск.
+--
+VDI.
+--
+Динамический ЖД
+--
+Размер 12Гб.
+--
+Жмем правой мышкой, настроить: Носители подключаем образ оптического диска скачанного с сайта.
+Сеть: Сетевой мост.
+--
+
+Пошла установка Убунту: выбираем русский язык.
+
+Стереть диск и установить Ubuntu.
+
+Вводим имя пользователя и пароль.
+
+Установка.
+
+Перезапуск системы.
+
+Нужно поставить гостевые дополнения.
+
+Терминал:
+
+sudo apt update     обновляем систему.
+sudo apt upgrade
+
+Выбираем способ переключения языков.
+
+Ставим гостевые дополнения:
+
+sudo apt install gcc make perl
+
+Перегружаем машину.
+
+Ставим сервер SSH:
+
+sudo apt install openssh-server
+
+Ставим mySQL 8:
+
+Команды берем из файла примеров. Копи паст.
+
+(# Устанавливаем MySQL 8
+wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
+sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 5072E1F5
+sudo dpkg -i mysql-apt-config_0.8.10-1_all.deb
+sudo apt update
+sudo apt-get install mysql-server)
+
+Скачивание дистрибутовов, настройка ключей, скачиваем конфигуратор.
+
+Ставим не через sudo apt install.
+
+Ставим версию 8.0, tab -> OK.
+В следующем окне ничего не меняем, ОК.
+
+sudo apt update
+
+sudo apt install mysql-server
+(обратим внимание, чтобы не была версия 7, если 7, то отменяем и заново выбираем на пред. этапе. если версии нет, значит - 8, все ок!)
+
+Вводим пароль администратора БД. 
+
+Настраиваем метод аутентификации: 
+
+-String password.. новый. на реальном сервере лучше его.
+-Legacy - для учебных целей можно исп. его, он более совместим с клиентами.
+
+mysql -V
+
+версия клиента.
+
+mysqld -V
+
+8.0.19
+
+mysql -u (user) root -p (применяем пароль)
+
+mysql>   все ок!!
+
+Если ставить под Win:
+
+dev.mysql.com
+
+отсюда качаем, загрузки, выбираем MS Windows.
+
+MySQL Community Server 8.0.19
+
+Выбираем любой вариант для скачивания.
+
+Запускаем .msi файл, установщик.
+
+Выбираем Custom:
+MySQL Server 8.0
+MySQL Workbench
+MySQL Notifier
+MySQL Shell
+MySQL Router
+Connector/ODBC
+Connector/Python
+MySQL Documentation
+Samples and Examples
+
+Next, Stadalone
+Сеть - не меняем!
+
+Authentification - для учебной машины - 2й вариант, для рабочей - первый.
+
+Задаем пароль рута.
+Далее все по дефолту.
+
+MySQL Router - все оставляем.
+
+Connect to Server - проверяем соед. с сервером.
+
+Apply Config - Execute.
+
+Проверяем работает или нет:
+
+Заходим в Command promt - mysql -V
+
+Если ошибка: идем в диск C: program files, mysql, mysql server, bin
+
+Этот путь добавляем в path.
+
+Копируем адрес: идем в контрольную панель. System and Security, Sysyrm - Advanced, Variable Enviroment:
+открываем path -> edit, new - вставляем туда ссылку.
+
+Перезапускаем командную строку, теперь все ок!
+
+mysql -u root -p
+
+SHOW DATABASES 
+
+Все ок!!
+
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+
+Например: с win подключаемся к удаленной машине - mySQL серверу.
+
+Смотрим IP адрес вирт машины: 
+
+На линуксе ip a
+
+ищем наш ip адрес.
+
+в Putty на вин прописываем этот адрес.
+
+OPEN, потом открывается терминал:
+
+login as:
+pass - вводим инф. для Ubuntu.
+
+Теперь можем выполнять все команды как на вирт. машине.
+
+Граф клиент:
+
+DBeaver - мы используем его.
+https://dbeaver.io/download/
+
+
+Запускаем MySQL Workbench.
+
+Если сервер находится локально, то мы выбираем local instanse.
+
+Если сервер удаленный:
+
+MySQL connections: + 
+
+Прописываем:
+
+Name
+Connection Method TCP/IP over SSH
+
+SSH Hostname: прописываем адрес удаленной машины:22 порт
+
+SSH username - вводим нашего пользов.
+Вводим пароль.
+
+MySQL Hostname - оставляем как есть: 127.0.0.1 - после подключения, сервер исп. уже локальный.
+
+Тест. все ОК!
+
+Жмем - ОК, соединение сохранено.
+
+Запускаем Beaver:
+
+Слева видим список соединений. 
+
+---- для локального сервера:
+
+База данных - новое соединение:
+
+SQL - mySQL 8+ выбираем.
+Меняем только пароль и Server Time Zone - ставим нашу временную зону.
+
+---- для удаленного сервера:
+
+База данных - новое соединение:
+
+MySQL 8+ 
+
+вводим пароль, вр. зону.
+
+SSH вкладка:
+
+галочка исп. туннель SSH.
+
+Прописываем адрес удаленного сервера, пользов. пароль.
+Порт 22.
+
+Делаем тест, ОК, жмем готово.
+
+
+---------------------------------------------------------------
+
+
+
+Бэкап ТАБЛИЦЫ (ТАБЛИЦ) из определенной базы данных
+Создаем резервную копию ОДНОЙ таблицы из базы
+В том случае, когда у вас нет нужды создавать резервную копию всей базы данных целиком, а необходимо лишь создать резервную копию одной таблицы из этой базы данных, можно воспользоваться следующей командой:
+
+mysqldump -u root -p database_name table_name > table_name_backup.sql
+table_name - это имя таблицы, резервную копию которой мы хотим сделать и которая находится в базе данных database_name.
+
+Создаем резервную копию НЕСКОЛЬКИХ таблиц из базы
+В том случае, когда вам необходимо сделать резервную копию нескольких таблиц из определенной базы, можно воспользоваться следующей командой:
+
+mysqldump -u root -p database_name table_name_1 table_name_2 table_name_3 > tables_backup.sql
+table_name_1 table_name_2 table_name_3 - это названия таблиц, резервные копии которых мы хотим сделать. В нашем примере данные таблицы находятся в базе данных database_name.
+
+
+Перенести файлы на вирт. машину можно через ssh через winscp, filezilla.
+
+создаем бд, не заходя в режим mysql:
+mysql -e 'CREATE DATABASE sample'
+
+задание 4:
+
+mysqldump mysql help_keyword --where='TRUE LIMIT 100' > help_keyword_report.sql
+
+Проектирование реляционной базы данных.
+
+Нормальные формы. Мы будем использовать 1-3 нормальный формы данных.
+
+Анализируем страницку вконтакте.
+
+Основная структура - пользователь.
+
+Новости формируются на основе записей из других таблиц, поэтому отдельной сущности новость не будет.
+Дублирование исключают.
+Эту тублицу с новостями формируют на лету из др. таблиц.
+Новости - это последние обновления др. таблиц.
+
+Сообщения - да, нужна таблица.
+Друзья - да.
+Сообщества - да.
+Фотографии, музыка видео - медиаконтент - да, можно сделать все в 1 таблице 
+или все в отдельных.
+
+CREATE DATABASE vk;
+
+CREATE TABLE users (
+	id SERIAL (но для новичков лучше полностью расписать: INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	first_name VARCHAR(100) NOT NULL,
+	last_name VARCHAR(100) NOT NULL,
+	email VARCHAR(120) NOT NULL UNIQUE,
+	phone VARCHAR(10) NOT NULL UNIQUE,
+	gender CHAR(1) NOT NULL,
+	birthday DATE,
+	city  VARCHAR(100),
+	country  VARCHAR(100),
+	photo_id (ссылка на фото) INT UNSIGNED
+	created_at DATATIME DEFAULT NOW() - тоже самое что CURRENT_TIMESTAMP
+	updated_at DATATIME DEFAULT NOW() ON UPDATE NOW()
+);
+
+Можно разбить таблийу users на 2: юзер и profile. Т.к. один пользователь может создавать неск. профилей.
+Даже если нет, будет меньший размер табл юзерс => быстрее поиск.
+
+CREATE TABLE users (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	first_name VARCHAR(100) NOT NULL,
+	last_name VARCHAR(100) NOT NULL,
+	email VARCHAR(120) NOT NULL UNIQUE,
+	phone VARCHAR(10) NOT NULL UNIQUE,
+	created_at DATATIME DEFAULT NOW() - тоже самое что CURRENT_TIMESTAMP
+	updated_at DATATIME DEFAULT NOW() ON UPDATE NOW()
+);
+
+
+CREATE TABLE profiles (
+	user_id INT UNSIGNED NOT NULL - исп. ссылка на пользователя. PRIMARY KEY,
+	gender CHAR(1) NOT NULL,
+	birthday DATE,
+	city  VARCHAR(100),
+	country  VARCHAR(100),
+	photo_id (ссылка на фото) INT UNSIGNED
+	created_at DATATIME DEFAULT NOW() - тоже самое что CURRENT_TIMESTAMP
+	updated_at DATATIME DEFAULT NOW() ON UPDATE NOW()
+);
+
+пароли обычно прописываются приложениями.
+для быстродействия рекомендуется чтобы в каждой таблице был primary key.
+
+https://www.sqlstyle.guide/ru/
+рекомендации по стилям написания комманд.
+
+Таблица сообщений:
+
+CREATE TABLE messages (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+	from_user_id INT
+	to_user_id
+	body TEXT
+	is_important
+	is_delievered
+	created_at
+);
+
+CREATE TABLE friendship (
+	user_id INT UNSIGNED NOT NULL,
+	friend_id INT UNSIGNED NOT NULL,
+	status_id INT UNSIGNED NOT NULL,
+	requested_at DATETIME DEFAULT NOW(),
+	confirmed_at DATABASE
+	PRIMARY KEY (user_id, friend_id)	запросы на дружбу не повторяются, поэтому искать потом удобно по комбинации двух id.
+);
+
+CREATE TABLE friendship_statuses (
+	id 
+	name VARCHAR(150) NOT NULL UNIQUE  - статусы дружеских отношений.
+);
+
+CREATE TABLE communities (
+	id
+	name VARCHAR(150) NOT NULL UNIQUE
+	created_at DATETIME
+);
+
+как связать пользователя и группу?
+
+если добавить в юзера или communities, то будет много значений в одной строке - нарушение норм. формы.
+
+Создаем таблицу связи:
+
+CREATE TABLE communities_users (
+	community_id
+	user_id
+	PRIMARY KEY(community_id, user_id)
+);
+
+CREATE TABLE media (
+	id
+	media_type_id    ссылка на справочную табл, где будут перечислены типы контента.
+	user_id
+	file_path  - ссылка на файл, который хранится в CDN
+	size - полезная инф. для анализа
+	metadata JSON - разные типы данных, поэтому набор атрибутов будет разный, поэтому добавили сюда столбец JSON. Намеренное нарушение первой нормализации.
+	created_at
+	updated_at
+);
+
+все медиа в одной таблице.
+
+CREATE TABLE media_types (
+	id
+	name - фото, видео, музыка и др.
+);
+
+Справочник media типы.
+
+смотрим на отношения между сущностями. Отношений сущ. 3 типа:
+1-1
+1-много
+много-много
+
+Необходимо создать набор тестовых данных. Не в ручную.
+
+Для этого есть специализированные библиотеки - фейкеры.
+
+filldb.info
+
+-- Документация
+-- https://dev.mysql.com/doc/refman/8.0/en/
+-- http://www.rldp.ru/mysql/mysql80/index.htm
+
+-----------------------------------------------------
+
+
+CRUD операции.
+
+В Бивере загружаем дамп:
+
+работает для небольших дампов.
+
+File -> Open file
+
+SQL editor -> import SQL script.
+
+можно в начале скрипта прописать БД: 
+
+USE vk; (vk - БД).
+
+Жмем Alt+X
+
+Загрузили.
+
+Создаем новое окно:
+
+USE vk;
+
+SHOW TABLES;
+
+DESC users; смотрим структуру табл.
+
+SELECT * FROM users LIMIT 10; смотрим 10 строк.
+
+Анализируем как получились данные при заполнении.
+
+поле phone - небольшое - 10 символов.
+
+ALTER TABLE users MODIFY COLUMN phone VARCHAR(13) NOT NULL UNIQUE;
+
+добавляем к телефону случайные цифры в конец:
+
+SELECT RAND(); - случайное значение от 0 до 1.
+
+SELECT 100 + RAND() * 999;
+
+отрежем дробную часть:
+
+SELECT FLOOR(100 + RAND() * 899); - от 100 до 999
+
+UPDATE users SET phone = CONCAT(phone, FLOOR(100 + RAND() * 899)); - CONCAT - объединяем строки.
+
+UPDATE users SET phone = CONCAT(phone, FLOOR(100 + RAND() * 899)) WHERE LENGTH(phone) <= 10;
+
+- LENGHT - подсчет количества символов.
+
+Пришел warning - меняется сразу много строк - ОК.
+
+Автоматически обновилось значение в updated at.
+
+Все ок, ищем другую таблицу:
+
+DESC profiles;
+
+SELECT * FROM profiles LIMIT 10;
+
+правим gender:
+
+создаем временную таблицу:
+
+CREATE TEMPORARY TABLE genders(gender CHAR(1)); - 1 столбец gender
+
+INSERT INTO genders VALUES ('m'), ('f'); - вставили данные в столбец
+
+SELECT * FROM genders;
+
+все ок - m и f.
+
+UPDATE profiles SET gender = (
+	
+	SELECT gender FROM genders ORDER BY RAND() LIMIT 1 - вложенный селект, упорядочиваем по ослучайному значению. Берем 1 значение.
+	
+	);
+
+Есть еще строки, где update раньше create:
+
+для всех таких строк - updated делаем текущим временем.
+
+UPDATE profiles SET updated_at = NOW() WHERE created_at > updated_at;
+
+теперь все ок, идем дальше:
+
+DESC messages;
+
+SELECT * FROM messages LIMIT 10;
+
+видим, что from_user_id = to_user_id, поправим:
+
+UPDATE messages SET
+	from_user_id = FLOOR(1 + RAND() * 100), - делаем как с телефонами выше, учитываем сколько строк в табл. users
+	to_user_id = FLOOR(1 + RAND() * 100); - 100, т.к. rand генерирует значения не включая гранечные значения.
+
+SELECT COUNT(*) FROM users; --> 100 юзеров  
+COUNT(*) - строки
+можно вместо * указать столбец, в котором подсчитываем строки.
+
+дальше идем:
+
+DESC media;
+
+metadata стал longtext, а не json, странно.
+
+SELECT * FROM media LIMIT 10;
+
+много значение типов, разбросать по user_id, заполнить file_path..
+
+видим, что в таблице SELECT * FROM media_types; - их 100 штук, это слишком много.
+
+Удаляем и создаем несколько штук.
+
+DELETE FROM media_types; - удаляем все.
+
+INSERT INTO media_types (name) VALUES   - name - столбец
+('photo'),
+('video'),
+('audio');
+
+счетчики начались со 100... т.к. применили DELETE, а не TRUNCATE.
+
+TRUNCATE media_types; 
+
+INSERT INTO media_types (name) VALUES   - name - столбец
+('photo'),
+('video'),
+('audio');
+
+итак, в media:
+
+UPDATE media SET
+	media_type_id = FLOOR(1 + RAND() * 3);
+	
+
+UPDATE media SET
+	user_id = FLOOR(1 + RAND() * 100);
+
+теперь file path, будем генерить что-то типа:
+
+http://dropbox/vk/file_43435345
+
+UPDATE media SET file_path = 
+	CONCAT('http://dropbox/vk/file_', FLOOR(1 + RAND() * 9999));
+
+меняем size, где он слишком маленький.
+
+UPDATE media SET size = FLOOR(10000 + (RAND() * 1000000)) 
+	WHERE size < 1000;
+
+теперь к metadata: можно вернуть тип json и вставить объект json, но проще
+сначала вставить текст, а потом поменять тип.
+
+UPDATE media SET metadata = CONCAT('{"owner":"', 
+  (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE id = user_id),
+  '"}'); 
+
+ALTER TABLE media MODIFY COLUMN metadata JSON; меняем тип столбца.
+
+Операции с json:
+
+выбирать значения и менять.
+
+SELECT id, JSON_EXTRACT(metadata, '$.owner') AS owner - $.owner имя ключа.
+	FROM media
+	WHERE id = 1;
+
+меняем значение:
+
+UPDATE media SET metadata = 
+	JSON_REPLACE(metadata, '$.ownder', 'REPLACED_VALUE')
+	WHERE id = 1;
+
+Идем дальше:
+
+SELECT * FROM friendship LIMIT 10;
+
+user_id = friend_id, много статусов.
+
+Проблемы те же.
+
+UPDATE friendship SET
+	user_id = FLOOR(1 + RAND() * 100),
+	friend_id = FLOOR(1 + RAND() * 100);
+	
+ошибка - user_id, friend_id - PRI, а они повторяются!
+
+Можем запустить команду несколько раз и она пройдет, не будет совпадений.
+Но если строк оч. много, так не пойдет.
+
+В этом случе нужно обновлять значения строк частями, чтобы не было совпадений.
+
+SELECT * FROM friendship_statuses;
+100 шт - много!
+
+TRUNCATE friendship_statuses;
+
+INSERT INTO friendship_statuses (name) VALUES
+	('requested'),
+	('confirmed'),
+	('rejected');
+
+UPDATE friendship SET
+	status_id = FLOOR(1 + RAND() * 3);
+
+Идем дальше.
+
+DESC communities;
+
+SELECT * FROM communities;
+
+многовато групп для 100 пользов - 100 групп.
+
+DELETE FROM communities WHERE id > 20;
+
+Последняя табл:
+
+DESC communities_users;
+
+SELECT * FROM communities_users LIMIT 50;
+
+осталось только 20 групп, а тут больше.
+
+UPDATE communities_users SET
+	community_id = FLOOR(1 + RAND() * 20),
+	user_id = FLOOR(1 + RAND() * 100);
+	
+Может быть снова ошибка дублирования PRI. Выполняем несколько раз.
+
+-------------------------------
+
+вставляем default фото:
+
+USE vk;
+
+DESC profiles;
+
+обновляем media:
+
+вставляем дефолтную фотку, создаем админа, который будет владеть этой фоткой.
+либо создать дефолтного пользователя.
+т.к. user_id в media стоит Not NULL.
+
+Это нехорошо, поэтому обычно дефолтную фотку вставляют на уровне приложения.
+
+Можно еще добавить разный статус отношений: влюблен, женат и т.д.
+
+1. Табл типы отношений.
+
+2. Табл связи между пользователями и отношениями.
+
+Как посмотреть схему связей таблиц между собой?
+
+Мы уже делали столбцы: relation_type_id - повторяли название табл + id
+уже по названию все понятно.
+
+Как построить диаграму IR diagram - узнаем позже.
+
+доки:
+
+https://dev.mysql.com/doc/refman/8.0/en/
+http://www.rldp.ru/mysql/mysql80/index.htm
+
+
+------------------------------------------------------
+
+Преобразовать строку к типу для автоматического разпознавания
+DATETIME: 
+
+STR_TO_DATE(created_at, '%d.%m.%Y.%hh')
+
+
+сортировка так чтобы 0 в конце:
+
+SELECT
+* 
+FROM
+ORDER BY 
+IF (value > 0, 0, 1),
+value;
+
+SELECT
+* 
+FROM
+ORDER BY value = 0, value;
+
+для проверки работы:
+SELECT
+value, value = 0 
+FROM
+ORDER BY value = 0, value;
+
+сортировка по порядку указанному в каталоге:
+
+SELECT
+*
+FROM
+ catalogs
+WHERE 
+ id IN(5,1,2)
+ORDER BY
+ FIELD(id, 5, 1, 2)
+
+посчитать количество дней рождений на каждый день недели текущего года:
+
+ф. CONCAT_WS - объединение всех параметров через символ.
+
+код скопировать из примера.
+
+
+Реадизация лайков, постов.
+Скопировать, выполнить.
+
+Как посмотреть связь между табл? Диограмму отношений.
+
+DATA -> Databases -> vk щелкаем.
+
+ER Diagram.
+
+Таблицы есть, но отношений между ними нет.
+
+Нужно их указать:
+
+Смотрим структуру таблицы:
+
+USE vk;
+
+DESC users;
+
+DESC profiles;
+ищем кандидатов на внешний ключи:
+user_id
+photo_id
+
+Создаем ограничение на столбец внешнего ключа:
+(или просто перв ключ, но не исп. обычно в проектах)
+т.к. нельзя задать имя
+
+ALTER TABLE profiles
+  ADD CONSTRAINT profiles_user_id_fk (имя: таблица + столбец + fk - foreign key)
+    FOREIGN KEY (user_id) REFERENCES users(id) - куда ссылается
+	  ON DELETE CASCADE,   - что делать при удалении, удаляется и профиль юзера автоматически.
+  ADD CONSTRAINT profiles_photo_id_fk
+	FOREIGN KEY (photo_id) REFERENCES media(id)
+	  ON DELETE SET NULL; - при удалении основной фото пользователя, подстановка NULL в ячейку строки, где ссылка.
+	  
+смотрим дальше:
+
+DESC messages;	  
+	  
+ALTER TABLE messages
+  ADD CONSTRAINT messages_from_user_id_fk (имя: таблица + столбец + fk - foreign key)
+    FOREIGN KEY (from_user_id) REFERENCES users(id), - куда ссылается
+  ADD CONSTRAINT messages_to_user_id_fk (имя: таблица + столбец + fk - foreign key)
+    FOREIGN KEY (to_user_id) REFERENCES users(id); - куда ссылается
+
+Чтобы обновить диаграму - встать на БД и выбрать refresh.
+
+Появились связи.
+Если внешний ключ - сам первичный ключ - линия сплошная.
+Если нет - пунктирная.
+
+Далее: 
+
+USE vk;
+
+выберем данные пользователя:
+
+SELECT * FROM users WHERE id = 8;
+
+SELECT first_name, last_name, 'main_photo'city' FROM users WHERE id = 8;  - 'city'- это заглушка.
+
+откуда взять город и фото?
+
+инф. есть в профилях!
+
+SELECT city FROM profiles WHERE user_id = 8;
+SELECT photo_id FROM profiles WHERE user_id = 8;
+
+это можно поставить на места заглушек.
+
+SELECT first_name, last_name, 
+
+(SELECT city FROM profiles WHERE user_id = 8) AS city 
+(SELECT photo_id FROM profiles WHERE user_id = 8;)
+это только ID фотки, а где она сама? в media.
+
+FROM users WHERE id = 8; 
+
+SELECT file_path FROM media WHERE id = 'photo_id';
+
+id мы получали ранее:
+
+SELECT file_path FROM media WHERE id = 
+   (SELECT photo_id FROM profiles WHERE user_id = 8);
+
+Теперь составим наш многотабличный запрос:
+
+SELECT first_name, last_name, 
+
+ (SELECT city FROM profiles WHERE user_id = 8) AS city 
+ (SELECT file_path FROM media WHERE id = 
+   (SELECT photo_id FROM profiles WHERE user_id = 8)) AS main_photo,
+
+FROM users WHERE id = 8; 
+
+Усложняем запрос!
+Несколько раз повторяется user id =...
+
+SELECT first_name, last_name, 
+
+ (SELECT city FROM profiles WHERE user_id = 8) AS city 
+ (SELECT file_path FROM media WHERE id = 
+   (SELECT photo_id FROM profiles WHERE user_id = 8)) AS main_photo,
+
+FROM users WHERE id = 8; 
+
+Как анализирует запрос: 
+
+сначала смотрим откуда берутся данные
+потом условия.
+потом уже что именно берется.
+
+Далее преподаватель копирует запросы, скопировать их.
+
+-----------------------------------------------------------------------------
+
+
+Объяснение join:
+
+Кросс джоин:
+
+USE shop;
+
+SELECT users.id, users.name, users.birthday, orders.id,
+orders.user_id 
+FROM
+users -- левая таблица
+CROSS JOIN orrders; - правая таблица
+
+получили 5 колонок - из users и orders.
+
+Всего строк 28, т.е. 7*4 - все комбинации строк из двух 
+таблиц.
+
+
+SELECT users.id, users.name, users.birthday, orders.id,
+orders.user_id 
+FROM
+users, orders;
+
+получили тот же результат!
+Вариант называется неявный join, т.к. явно тут join не 
+указан, но он полностью эквивалентен.
+
+SELECT users.id, users.name, users.birthday, orders.id,
+orders.user_id 
+FROM
+users, orders
+WHERE users.id = orders.user_id;
+
+Добавили условие и теперь получили 3 строчки.
+Теперь это полнофункц. inner join.
+
+Но рекомендуется писать так:
+
+SELECT users.id, users.name, users.birthday, orders.id,
+orders.user_id 
+FROM
+users JOIN orders
+ON users.id = orders.user_id;
+
+ON не совсем как WHERE:
+ON - отношение между табл.
+WHERE - описывает какие строки интересуют - как фильтр.
+Для внешних объединений ON != WHERE.
+ON быстрее чем WHERE.
+
+
+SELECT users.id, users.name, users.birthday, orders.id,
+orders.user_id 
+FROM
+users INNER JOIN orders - прописали явно, что INNER.
+ON users.id = orders.user_id;
+
+В JOIN нет магии, все идет от cross join и фильтрации.
+
+SELECT u.name, COUNT(o.user_id) AS total_orders
+FROM
+
+... далее запросы лучше посмотреть в примерах, он их копирует.
+
+LEFT JOIN - в отчет в любом случае попадают все строки из 
+левой таблицы.
+LEFT JOIN = LEFT OUTER JOIN
+
+RIGHT - выводим все из правой таблицы независимо от того,
+есть ли соответствие из левой таблицы или нет.
+
+SELECT * FROM users FULL JOIN orders;
+
+FULL JOIN с условиями не поддерживается. Выдается простоте же
+28 строк, аналогично cross join.
+По идее к FULL JOIN можно применять фильтры, в отличие
+от cross join.
+
+Практика.
+
+USE vk;
+
+1. Пише просто SELECT, но что SELECT пока не указываем.
+2. Смотрим какие данные из каких таблиц берем.
+Понимаем что объединямем 2 табл.
+3. Пишем FROM и таблицы.
+4. Как объединяем, по каким столбцам.
+По внешнему ключу.
+5. Пишем ON...
+6. Дописываем фильтрацию: WHERE..
+7. Дописываем что берем после SELECT.
+
+SELECT 
+first_name, last_name, email, gender, birthday, city
+
+FROM users
+  INNER JOIN profiles - т.к. у пользователей не должно быть такого что нет профилей
+  ON profiles.user_id = users.id
+WHERE users.id = 8;
+
+-- выбираем все медиафайлы:
+
+Речь идет о медиафайлах, поэтому FROM media:
+
+SELECT
+
+users.first_name, users.last_namem media.user_id, media.file_path, media.created_at
+
+FROM media
+
+JOIN users
+ON media.user_id = users.id
+WHERE media.user_id = 8;
+
+Далее скопировать.
+
+Объединение 3х табл: 
+
+JOIN 
+ON 
+JOIN 
+ON 
+WHERE
+
+Если объединение идет не простой связке, а по более сложным условиям,
+то при выводе нужно исп. DISTINCT, т.к. будут дубликаты.
+
+-- Использование JOIN
+
+USE shop;
+
+-- CROSS JOIN
+SELECT users.id, users.name, users.birthday_at, orders.id, orders.user_id
+  FROM users
+    CROSS JOIN orders;
+
+-- Неявный JOIN (ведёт себя как CROSS JOIN)
+SELECT users.id, users.name, users.birthday_at, orders.id, orders.user_id
+  FROM users, orders;
+  
+-- Неявный JOIN с условием (ведёт себя как INNER JOIN) 
+SELECT users.id, users.name, users.birthday_at, orders.id, orders.user_id
+  FROM users, orders
+  WHERE users.id = orders.user_id;
+
+-- Указание связи с помощью ON  
+SELECT users.id, users.name, users.birthday_at, orders.id, orders.user_id
+  FROM users
+    JOIN orders
+  ON users.id = orders.user_id;
+  
+-- Предложение ON определяет отношения между таблицами.
+-- Предложение WHERE описывает, какие строки вас интересуют.
+-- Обычно вы можете поменять их местами и получить один и тот же результат,
+-- однако это не всегда так с левым внешним соединением.
+  
+-- INNER JOIN с явным указанием типа
+SELECT users.id, users.name, users.birthday_at, orders.id, orders.user_id
+  FROM users
+    INNER JOIN orders
+  ON users.id = orders.user_id;
+  
+-- INNER JOIN с агрегирующей функцией
+-- Подсчёт заказов пользователя  
+SELECT users.name, COUNT(orders.user_id) AS total_orders
+  FROM users
+    JOIN orders
+  ON users.id = orders.user_id
+  GROUP BY orders.user_id
+  ORDER BY total_orders;
+  
+-- Аналогично запросу выше, но с сокращением записи имён таблиц
+SELECT u.name, COUNT(o.user_id) AS total_orders
+  FROM users u
+    JOIN orders o
+  ON u.id = o.user_id
+  GROUP BY o.user_id
+  ORDER BY total_orders;
+ 
+ -- Вариант с явным AS
+SELECT u.name, COUNT(o.user_id) AS total_orders
+  FROM users AS u
+    JOIN orders AS o
+  ON u.id = o.user_id
+  GROUP BY o.user_id
+  ORDER BY total_orders;
+  
+-- LEFT OUTER JOIN (LEFT JOIN)
+SELECT users.id, users.name, users.birthday_at, orders.id, orders.user_id 
+  FROM users
+    LEFT OUTER JOIN orders
+  ON users.id = orders.user_id;
+  
+-- Пользователи, у которых нет заказов
+-- Подумайте, какой тип JOIN тут нужен  
+SELECT users.id, users.name, users.birthday_at, orders.id, orders.user_id 
+  FROM users
+    LEFT OUTER JOIN orders
+  ON users.id = orders.user_id
+  WHERE orders.id IS NULL;
+
+-- RIGHT OUTER JOIN (RIGHT JOIN)
+-- Сравним два варианта ниже  
+SELECT users.id AS id_from_users, users.name, users.birthday_at, orders.id AS id_from_orders, orders.user_id 
+  FROM users
+    LEFT JOIN orders
+  ON users.id = orders.user_id; 
+  
+SELECT users.id AS id_from_users, users.name, users.birthday_at, orders.id AS id_from_orders, orders.user_id 
+  FROM users
+    RIGHT JOIN orders
+  ON users.id = orders.user_id;  
+
+-- FULL JOIN (ведёт себя как LEFT JOIN + RIGHT JOIN)
+SELECT * FROM users FULL JOIN orders;
+
+
+
+-- Запросы на БД Vk
+USE vk;
+
+-- Выборка данных по пользователю
+SELECT first_name, last_name, email, gender, birthday, city
+  FROM users
+    INNER JOIN profiles
+      ON users.id = profiles.user_id
+  WHERE users.id = 8;
+
+-- Выборка медиафайлов пользователя
+SELECT users.first_name, users.last_name, media.user_id, media.file_path, media.created_at
+  FROM media
+    JOIN users
+      ON media.user_id = users.id     
+  WHERE media.user_id = 8;
+  
+-- Выборка фотографий пользователя
+SELECT users.first_name, users.last_name, media.user_id, media.file_path, media.created_at
+  FROM media
+    JOIN users
+      ON media.user_id = users.id
+    JOIN media_types
+      ON media.media_type_id = media_types.id     
+  WHERE media.user_id = 8 AND media_types.name = 'photo';
+  
+-- Выборка медиафайлов друзей пользователя
+SELECT DISTINCT media.user_id, media.file_path, media.created_at
+  FROM media
+    JOIN friendship
+      ON media.user_id = friendship.user_id
+        OR media.user_id = friendship.friend_id
+    JOIN users 
+      ON users.id = friendship.friend_id
+        OR users.id = friendship.user_id   
+  WHERE users.id = 8;
+  
+SELECT DISTINCT media.user_id, media.file_path, media.created_at
+  FROM media
+    JOIN friendship
+    JOIN users 
+      ON (users.id = friendship.friend_id 
+        OR users.id = friendship.user_id)
+      AND (media.user_id = friendship.user_id 
+        OR media.user_id = friendship.friend_id)   
+  WHERE users.id = 8;  
+
+-- Отберём только медиафайлы друзей  
+SELECT DISTINCT media.user_id, media.file_path, media.created_at
+  FROM media
+    JOIN friendship
+    JOIN users 
+      ON (users.id = friendship.friend_id 
+        OR users.id = friendship.user_id)
+      AND (media.user_id = friendship.user_id 
+        OR media.user_id = friendship.friend_id)   
+  WHERE users.id = 8 AND media.user_id != 8;   
+
+-- Проверка
+SELECT user_id, friend_id FROM friendship WHERE user_id = 8 OR friend_id = 8;
+
+-- Выборка фотографий пользователя и друзей пользователя (без DISTINCT)
+SELECT media.user_id, media.file_path, media.created_at
+  FROM media
+    JOIN friendship
+      ON media.user_id = friendship.user_id
+        OR media.user_id = friendship.friend_id
+    JOIN media_types
+      ON media.media_type_id = media_types.id
+    JOIN users 
+      ON users.id = friendship.friend_id
+        OR users.id = friendship.user_id   
+  WHERE users.id = 8 AND media_types.name = 'photo';
+  
+-- Используем DISTINC  
+SELECT DISTINCT media.user_id, media.file_path, media.created_at
+  FROM media
+    JOIN friendship
+      ON media.user_id = friendship.user_id
+        OR media.user_id = friendship.friend_id
+    JOIN media_types
+      ON media.media_type_id = media_types.id
+    JOIN users 
+      ON users.id = friendship.friend_id
+        OR users.id = friendship.user_id   
+  WHERE users.id = 8 AND media_types.name = 'photo';  
+
+-- Сообщения от пользователя
+SELECT messages.body, users.first_name, users.last_name, messages.created_at
+  FROM messages
+    JOIN users
+      ON users.id = messages.to_user_id
+  WHERE messages.from_user_id = 8;
+
+-- Сообщения к пользователю
+SELECT body, first_name, last_name, messages.created_at
+  FROM messages
+    JOIN users
+      ON users.id = messages.from_user_id
+  WHERE messages.to_user_id = 8;
+  
+-- Объединяем все сообщения от пользователя и к пользователю
+SELECT messages.from_user_id, messages.to_user_id, messages.body, messages.created_at
+  FROM users
+    JOIN messages
+      ON users.id = messages.to_user_id
+        OR users.id = messages.from_user_id
+  WHERE users.id = 8;
+
+-- Количество друзей у пользователя с сортировкой
+-- Выполним объединение и посмотрим на результат
+SELECT users.id, first_name, last_name, requested_at
+  FROM users
+    LEFT JOIN friendship
+      ON users.id = friendship.user_id
+        OR users.id = friendship.friend_id
+        ORDER BY users.id;
+
+-- Затем подсчитаем
+SELECT users.id, first_name, last_name, COUNT(requested_at) AS total_friends
+  FROM users
+    LEFT JOIN friendship
+      ON users.id = friendship.user_id
+        OR users.id = friendship.friend_id
+  GROUP BY users.id
+  ORDER BY total_friends DESC
+  LIMIT 10;
+
+-- Список медиафайлов пользователя с количеством лайков
+SELECT likes.target_id,
+  media.file_path,
+  target_types.name AS target_type,
+  COUNT(DISTINCT(likes.id)) AS total_likes,
+  CONCAT(first_name, ' ', last_name) AS owner
+  FROM media
+    LEFT JOIN likes
+      ON media.id = likes.target_id
+    LEFT JOIN target_types
+      ON likes.target_type_id = target_types.id
+    LEFT JOIN users
+      ON users.id = media.user_id
+  WHERE users.id = 8 AND target_types.name = 'media'
+  GROUP BY media.id;
+
+-- 10 пользователей с наибольшим количеством лайков за медиафайлы
+SELECT users.id, first_name, last_name, COUNT(*) AS total_likes
+  FROM users
+    JOIN media
+      ON users.id = media.user_id
+    JOIN likes
+      ON media.id = likes.target_id
+    JOIN target_types
+      ON likes.target_type_id = target_types.id
+  WHERE target_types.name = 'media'
+  GROUP BY users.id
+  ORDER BY total_likes DESC
+  LIMIT 10;
+
+
+
+
+-- Рекомендуемый стиль написания кода SQL
+-- https://www.sqlstyle.guide/ru/
+
+-------------------------------------------------------
+
+Практика:
+
+Создаем ф. для vk
+
+Функция направленности дружбы: количество приглашений от пользователя
+и к пользователю.
+
+Снова копирует. потом взять код.
+
+Индексы, как происхоит поиск инф. в табл?
+
+SELECT * FROM users;
+
+SELECT id, first_name, last_name
+FROM users
+WHERE email = 'picgk@example.org';
+
+Как данные ищутся? 
+
+СУБД должна прочитать данные с диска.
+
+Где храняться блоки БД, найти файл, прочитать их, собрать файл из
+кусочков, перебрать все строки таблицы users и проверяем значение
+email. Если подходит, выводим.
+
+Если строк очень много, то выполнятся будет долго.
+
+Проблемы:
+
+1. Низкая скорость чтения файлов на носителе.
+2. Большое количество операций сравнения при поиске данных.
+
+Что помогает искать быстрее реально сейчас?
+
+Представим, что таблица users отсортирована по email и хран. в таком
+виде в файле БД.
+
+В этом случае можно было бы применить алгоритм бинарного поиска.
+
+Это несоизмеримо быстрее, как раз для этого нужны индексы,
+они помогают хранить все отсортированным для всех столбцов.
+
+Таким образом если у нас есть индексы для столбца email,
+то СУБД будет искать по индексу (отсорт. столбцу), а не по значениям и
+быстро находит нужное значение.
+
+Создаем индекс:
+
+CREATE INDEX users_email_idx ON users(email);
+
+Если есть индекс, то СУБД обязательно его будет использовать.
+
+SELECT id, first_name, last_name
+FROM users
+WHERE email = 'picgk@example.org';
+
+Теперь запрос выполнился через Index.
+Изначально для всех столбцов индексы не строят, т.к. они
+занимают много места + ресурсы на перестройку индексов,
+если в таблице что-то меняется.
+
+Некоторые индексы СУБД строит сам:
+
+1. На первичный ключ
+2. На внешние ключи
+3. Для столбцов, которые мы определили как UNIQUE.
+
+Для остальных столбцов разрабочик решает сам где определить
+индексы.
+
+Если указыаем, что индекс уникален, то поиск будет еще 
+быстрее, т.к. остановится после нахождения первого значения.
+
+DROP INDEX users_email_idx ON users;
+
+CREATE UNIQUE INEX users_email_idx ON users(email);
+
+SELECT * FROM messages
+	WHERE from_user_id= 5 AND to_user_id =8;
+	
+Создадим для данного запроса свой индекс:
+	
+CREATE INDEX messages_from_user_id_idx
+ON messages (from_user_id, to_user_id);
+
+Порядок тут важен from и to.
+Если порядок поменять, то СУБД этот индекс не будет 
+использовать.
+
+Индекс - это и есть упорядоченные значения столбца.
+
+Создаем индексы для тех столбцов, по которым делаем 
+ORDER BY.
+
+Оконные функции.
+
+Поддержка включена с версии 8.0
+
+Синтаксис:
+
+Функция OVER окно
+
+Окно - это некоторое выражение, которое описывает набор
+строк, которые может обраб. ф.
+
+если OVER () - окно - все строки результата запроса.
+
+Сколько занимают медиафайлы в контенте в процентном отношении.
+
+SELECT * FROM media_types;
+
+Сначала решим задачу обычным способом:
+
+/// скопировать
+
+Теперь сдедлаем это через окна:
+
+SELECT DISTINCT medi_type.name,
+SUM(media.size) OVER (PARTITION BY media.media_type_id) AS total_by_type,
+SUM(media.size) OVER () AS total,
+SUM(media.size) OVER (PARTITION BY media.media_type_id) / SUM(media.size) OVER () * 100 AS '%%'
+
+FROM media
+JOIN media_types
+ON media.media_type_id = media_types.id;
+
+Тут нет никакой группировки.
+
+Далее скопировать.
+
+Важно для оконных ф. слово DISTINCT.
+
+Иначе будет столько строк, сколько в самой табл, из которой
+выбираем значения.
+В этих строках видны окна, т.к. окна не убирают ничего, не
+группируют.
+
+Денормализация.
+
+Для построения БД крайне важно использовать 
+принципы нормализации.
+
+Но на практике это не всегда возможно, т.к. возникают
+проблемы с производительностью.
+
+Как правило это проявляется уже на этапе эксплуатации
+БД.
+
+Денормализация - это не недоделанная нормализация.
+
+Правильно - создать с начала все нормально, а уже потом,
+если по другому никак - сделать денормализацию.
+
+При нарушении нормальных форм будут другие проблемы, поэтому
+нужно искать компромисс.
+
+Когда нужна денормализация? При проблема с производительностью.
+Когда она оправдана? Если все другие решения не дали результата.
+
+Пример - расчетные значения, которые постоянно пересчитываются.
+Например, их можно рассчитывать по триггеру при изменению данных в табл. и хранить в отдельном столбце.
+
+длинные поля: BLOB, TEXT и т.д. структуры, которые оч. большого
+объема и храняться в файлах не эффективно и дольше обрабатываются.
+Нужно макс возможно уменьшить кол-во таких полей.
+Если невозможно, то искать др. способы.
+Например, в media хранится ссылки на файлы и не сами они. 
+
+Множественное соединение таблиц.
+Можно объединить табл. - нарушить нормализ.
+Например: media и media_types. Можно типы хранить в media.
+
+Типы enum, json.
+
+---------------------------------------------------------
+
+Оптимизация запросов.
+
+Оптимизация в общем - это
+конфигур, настройка, определение параметров на разных уровнях.
+
+Оптимизация на уровне аппаратных средств.
+
+1. Оптимизация использования носителей данных.
+Правильно выбираем тип носителя, где хран данные.
+
+Правильное определение нагрузки процессора.
+Большие табл обраб медленно, т.е. чем больше таблица занимает места,
+тем медленнее она обраб проц.
+
+Обеспечить пропускную способность оперативки.
+
+2. Оптимизация уровня БД как приложения.
+
+Выбор размеров кэшей.
+
+На уровне проектирования структуры, выбираем минимально допустимый тип 
+столбцов. Не берем с заделом.
+
+Не исп. слишком большие значения по типам.
+
+Для часто обновл таблиц - меньше столбцов в структуре.
+Чем чаще обращ, тем меньше столбцов.
+
+Правильные индексы. 
+
+Правильный выбор движка для табл.
+(InnoDB не для всех случаев. Для табл, где не важна сохран данных, можно
+исп MyISAM, для архивов - Archive).
+
+Возможность сжатых таблиц.
+
+Правильный выбор стратегии блокировок.
+(действия при одновременных запросах неск. пользов. одним и тем же
+данным, т.е. вопросы одновременного доступа к данным).
+
+Правильная конфиг различных буферных пулов InnoDB, кэш ключей MyISAM,
+кэш запросов MySQL.
+(чтобы одни и те же запросы брались из кэша, чем заново из табл.)
+
+Оптимизация SQL запросов.
+
+1. Оптимизируйте запросы для кэша запросов.
+Чтобы не было разнобоя при обращения к одним и тем же данным.
+Одни данные запрашивались одинаково.
+
+2. Используем LIMIT для выборок, если все данные не нужны.
+Например, не забираем всю табл, а потом питоном 1 строку - не надо так!
+
+3. Не используйте ORDER BY RAND()
+
+4. Старайтесь не использовать SELECT * - нужно выбирать только те
+столбцы, которые нужны! Лишняя нагрузка.
+
+5. Старайтесь использовать поле id везде, где идет обращение к строкам,
+т.к. СУБД оптимизирован под работу с первичными и внешними ключами.
+С ними работа самая быстрая.
+
+6. Используйте ENUM вместо VARCHAR.
+(для типов данных - пол - м. ж. ENUM - список коротких значений)
+
+7. Исп. NOT NULL где возможно.
+
+8. Индексируйте поля поиска.
+(по типовым запросам, наиболее часто запускаемым)
+
+9. Исп. одинаковые типы данных для связанных столбцов.
+(в MYSQL по другому уже и не получится)
+
+10. Создавайте индексы с высокой селективностью, т.е. где не часто повтор.
+(селективность то, насколько часто или редко повт. значения в стобце).
+Например, если m и f - половина m, половина f - толку от индекса никакого.
+
+11. Покрыв. индексы если все данные могут быть получены из индекса, MYSQL не будет
+обращ к табл.
+
+Добавить запрос из урока!!!
+
+12. Для индексов по строками часто индекс. только часть строки.
+Это может уменьшить размер индекса.
+Сейчас это уже не очень актуально, т.к. есть спец алгоритм elastic search.
+UNIQUE unique_name(name(10))
+
+не нужно ориент на время выполн запроса в системе, т.к. данные могут
+браться из кэшей, а не из табл. и явно это не видно.
+
+Нужно проводить нагрузочное тестирование, т.к. мы будем учитывать 
+работу системы и кэшей.
+
+Анализируем командой EXPLAIN SELECT...
+
+Описание вариантов вывода:
+
+http://www.mysql.ru/docs/man/EXPLAIN.html
+
+https://dev.mysql.com/doc/workbench/en/wb-performance-explain.html
+инструкция по граф. анализатору.
+
+
+
+
+
+
+
+
+
+
+
